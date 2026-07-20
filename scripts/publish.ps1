@@ -75,14 +75,30 @@ try {
   Write-Host "Created: $($created.html_url)"
 }
 
-$remoteUrl = "https://$($env:GITHUB_TOKEN)@github.com/$Owner/$Repo.git"
 git remote remove origin 2>$null
 git remote add origin "https://github.com/$Owner/$Repo.git"
 
-# Push using token via extraheader (avoids token in remote URL permanent config)
-git -c "http.https://github.com/.extraheader=AUTHORIZATION: token $($env:GITHUB_TOKEN)" push -u origin $Branch --force
+# Prefer x-access-token form (more reliable for classic/fine-grained PATs)
+# Avoid permanently storing the token in git config.
+$pushUrl = "https://x-access-token:$($env:GITHUB_TOKEN)@github.com/$Owner/$Repo.git"
+Write-Host "Pushing to origin/$Branch ..."
+git push $pushUrl "HEAD:refs/heads/$Branch"
+if ($LASTEXITCODE -ne 0) {
+  Write-Host ""
+  Write-Host "Push failed. Common causes:"
+  Write-Host "  1) Token expired / revoked / missing 'repo' (classic) or Contents+Metadata write (fine-grained)"
+  Write-Host "  2) SSO not authorized for the org (if any)"
+  Write-Host "  3) Token was pasted in chat earlier and already revoked"
+  Write-Host ""
+  Write-Host "Create a NEW token: https://github.com/settings/tokens"
+  Write-Host "Then retry:"
+  Write-Host "  `$env:GITHUB_TOKEN = 'NEW_TOKEN'"
+  Write-Host "  .\scripts\publish.ps1 -Owner $Owner -Repo $Repo"
+  exit 1
+}
 
+git branch --set-upstream-to="origin/$Branch" $Branch 2>$null
 Write-Host ""
 Write-Host "Done: https://github.com/$Owner/$Repo"
 Write-Host "Then clear token from this shell: Remove-Item Env:GITHUB_TOKEN"
-Write-Host "IMPORTANT: revoke the token on GitHub if it was ever pasted into chat."
+Write-Host "IMPORTANT: revoke any token that was ever pasted into chat."
