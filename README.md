@@ -1,9 +1,9 @@
-# 防久坐 · 微运动助手 / Anti-Sedentary Micro-Motion Assistant
+# 防久坐 · 提肛小助手 / Anti-Sedentary Micro-Motion Assistant
 
 [English](#english) | [中文](#中文)
 
 轻量级 Chrome / Edge **Manifest V3** 浏览器扩展。  
-双核状态机：久坐打断 + 高频微动（中性文案），数据全部本地存储。
+久坐打断 + 高频微动（中性文案），数据全部本地存储。
 
 A lightweight Chrome / Edge **Manifest V3** extension.  
 Dual-core timers: sit-break + micro-motion reminders. Privacy-first, all data stays local.
