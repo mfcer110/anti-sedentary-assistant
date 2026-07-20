@@ -11,6 +11,15 @@ Dual-core timers: sit-break + micro-motion reminders. Privacy-first, all data st
 <p align="center">
   <img src="docs/preview-banner.png" alt="Popup + in-page reminder overview" width="920" />
 </p>
+<p align="center">
+  <img src="docs/preview-card2.png" alt="In-page reminder card" width="560" />
+</p>
+<p align="center">
+  <img src="docs/preview-card3.png" alt="In-page reminder card" width="560" />
+</p>
+<p align="center">
+  <img src="docs/preview-card4.png" alt="In-page reminder card" width="560" />
+</p>
 
 ---
 
