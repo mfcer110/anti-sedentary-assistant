@@ -8,6 +8,14 @@
 A lightweight Chrome / Edge **Manifest V3** extension.  
 Dual-core timers: sit-break + micro-motion reminders. Privacy-first, all data stays local.
 
+<p align="center">
+  <img src="docs/preview-banner.png" alt="Popup + in-page reminder card preview" width="920" />
+</p>
+
+<p align="center">
+  <img src="docs/preview-card.png" alt="In-page reminder card" width="560" />
+</p>
+
 ---
 
 ## 中文
@@ -17,11 +25,22 @@ Dual-core timers: sit-break + micro-motion reminders. Privacy-first, all data st
 | 能力 | 说明 |
 |------|------|
 | 久坐计时 | 专注 → 预警 → 该休息 → 超时紧急 → 休息 → 再专注 |
-| 三阶提醒 | 角标闪烁 → 网页内卡片 → 提示音 / 窗口闪烁 |
+| 三阶提醒 | 角标闪烁 → **网页内卡片** → 提示音 / 窗口闪烁 |
 | 微动循环 | 独立闹钟动态续期；点击 🌱 手动打卡 |
 | 全屏静默 | 检测全屏，自动暂停微动提醒 |
 | 自定义音效 | 内置多风格 + 上传本地音频 |
 | 检查更新 | 弹窗底部「项目主页 / 检查更新」 |
+
+### 提醒卡片示例
+
+不使用系统通知，统一用网页右下角可操作卡片：
+
+![提醒卡片示例](docs/preview-card.png)
+
+- **该休息了**：红点 +「开始休息 / 稍后」
+- **超时紧急**：脉冲高亮，周期复响
+- **微动提醒**：绿点 +「做完了 / 稍后」
+- **全屏**：自动隐藏，避免会议尴尬
 
 ### 安装（开发者模式）
 
@@ -42,11 +61,13 @@ export const DEBUG_MODE = true; // 将「分钟」压缩为秒级，便于走完
 
 ### 配置项目链接 / 更新检查
 
-发布到 GitHub 后，修改 [`src/shared/constants.js`](src/shared/constants.js)：
+仓库地址已配置为：
 
 ```js
-export const PROJECT_REPO = '你的用户名/anti-sedentary-assistant';
+export const PROJECT_REPO = 'mfcer110/anti-sedentary-assistant';
 ```
+
+如 fork 到自己的账号，请改成你的 `用户名/仓库名`。
 
 ### 权限说明
 
@@ -80,11 +101,22 @@ Content Script 只做活跃度 / 全屏检测与页面内提醒卡片，**不读
 | Feature | Description |
 |---------|-------------|
 | Sit timer | Focus → warn → break pending → urgent → rest → focus |
-| Tiered alerts | Badge blink → in-page card → sound / window flash |
+| Tiered alerts | Badge blink → **in-page card** → sound / window flash |
 | Micro-motion loop | Independent alarm; click 🌱 to log a set |
 | Fullscreen mute | Auto-suppress micro-motion during fullscreen |
 | Custom sounds | Built-in styles + upload local audio |
 | Update check | Footer links: Project / Check for updates |
+
+### Reminder card preview
+
+No system notifications. All alerts use an actionable bottom-right page card:
+
+![Reminder card preview](docs/preview-card.png)
+
+- **Break due**: red accent + Start break / Later
+- **Overdue**: pulse highlight + periodic nudge
+- **Micro-motion**: green accent + Done / Later
+- **Fullscreen**: auto-hide to avoid meeting awkwardness
 
 ### Install (developer mode)
 
@@ -105,11 +137,11 @@ Then reload the extension.
 
 ### Project URL / update check
 
-After publishing to GitHub, set your repo in [`src/shared/constants.js`](src/shared/constants.js):
-
 ```js
-export const PROJECT_REPO = 'your-username/anti-sedentary-assistant';
+export const PROJECT_REPO = 'mfcer110/anti-sedentary-assistant';
 ```
+
+If you fork, point this to your own `username/repo`.
 
 ### Permissions
 
