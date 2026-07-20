@@ -7,7 +7,7 @@
  * 项目主页 / 更新检查（发布到 GitHub 后请改成真实仓库）
  * 格式：owner/repo
  */
-export const PROJECT_REPO = 'YOUR_GITHUB_USERNAME/anti-sedentary-assistant';
+export const PROJECT_REPO = 'mfcer110/anti-sedentary-assistant';
 export const PROJECT_URL = `https://github.com/${PROJECT_REPO}`;
 export const PROJECT_RELEASES_API = `https://api.github.com/repos/${PROJECT_REPO}/releases/latest`;
 export const PROJECT_MANIFEST_RAW =
