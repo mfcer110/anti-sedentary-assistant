@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>防久坐 · 微运动助手</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- 顶栏 -->
+    <header class="header">
+      <div class="brand">
+        <img class="brand-logo" src="../../assets/logo-64.png" width="44" height="44" alt="" aria-hidden="true" />
+        <div>
+          <h1 class="title">微运动助手</h1>
+          <p class="subtitle" id="phaseLabel">专注中</p>
+        </div>
+      </div>
+      <button type="button" class="icon-btn" id="btnPause" title="暂停/继续" aria-label="暂停或继续">
+        <span id="pauseIcon">❚❚</span>
+      </button>
+    </header>
+
+    <!-- 环形进度 -->
+    <section class="ring-section" aria-label="久坐进度">
+      <svg
+        class="progress-ring"
+        id="progressRing"
+        width="168"
+        height="168"
+        viewBox="0 0 168 168"
+        role="img"
+        aria-label="剩余时间"
+      >
+        <circle class="ring-track" data-ring-track cx="84" cy="84" r="74" fill="none" />
+        <circle class="ring-progress" data-ring-progress cx="84" cy="84" r="74" fill="none" />
+        <text class="ring-label" data-ring-label x="84" y="80" text-anchor="middle">50:00</text>
+        <text class="ring-sub" data-ring-sub x="84" y="104" text-anchor="middle">剩余</text>
+      </svg>
+
+      <div class="action-row" id="breakActions" hidden>
+        <button type="button" class="btn primary" id="btnStartBreak">开始休息</button>
+        <button type="button" class="btn ghost" id="btnSkipBreak">跳过</button>
+      </div>
+    </section>
+
+    <!-- 微动打卡 -->
+    <section class="kegel-card glass" aria-label="微运动">
+      <button type="button" class="kegel-btn" id="btnKegel" title="完成一组核心收紧">
+        <span class="kegel-emoji" aria-hidden="true">🌱</span>
+        <span class="kegel-count" id="kegelCount">0</span>
+      </button>
+      <div class="kegel-meta">
+        <div class="kegel-title">核心微动</div>
+        <div class="kegel-desc">点击打卡 · 今日完成</div>
+        <div class="kegel-next" id="kegelNext">下次提醒计算中…</div>
+      </div>
+      <label class="switch" title="开启/关闭微动提醒">
+        <input type="checkbox" id="kegelEnabled" checked />
+        <span class="slider"></span>
+      </label>
+    </section>
+
+    <!-- 今日统计 -->
+    <section class="stats glass" id="statsBoard" aria-label="今日统计">
+      <div class="stat">
+        <div class="stat-value" data-stat="kegel">0</div>
+        <div class="stat-label">微动</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" data-stat="breaks">0</div>
+        <div class="stat-label">休息</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" data-stat="focus">0m</div>
+        <div class="stat-label">专注</div>
+      </div>
+    </section>
+
+    <!-- 折叠设置 -->
+    <details class="settings glass" id="settingsPanel">
+      <summary>设置</summary>
+      <div class="settings-body">
+        <label class="field">
+          <span>专注时长（分钟）</span>
+          <input type="number" id="workDuration" min="1" max="180" step="1" />
+        </label>
+        <label class="field">
+          <span>休息时长（分钟）</span>
+          <input type="number" id="breakDuration" min="1" max="60" step="1" />
+        </label>
+        <label class="field">
+          <span>微动间隔（分钟）</span>
+          <input type="number" id="kegelInterval" min="5" max="120" step="1" />
+        </label>
+        <label class="check">
+          <input type="checkbox" id="isFullscreenMute" checked />
+          <span>全屏时自动静默微动</span>
+        </label>
+        <label class="check">
+          <input type="checkbox" id="soundAlerts" checked />
+          <span>提示音（休息/超时）</span>
+        </label>
+        <label class="check">
+          <input type="checkbox" id="pageBanner" checked />
+          <span>网页内提醒卡片</span>
+        </label>
+        <label class="check">
+          <input type="checkbox" id="windowFlash" checked />
+          <span>紧急时闪烁浏览器窗口</span>
+        </label>
+
+        <div class="sound-block" id="soundBlock">
+          <label class="field">
+            <span class="field-row">
+              <span>提示音量</span>
+              <span class="field-value" id="soundVolumeLabel">80%</span>
+            </span>
+            <input type="range" id="soundVolume" min="0" max="100" step="5" value="80" />
+          </label>
+          <label class="field">
+            <span>提示音风格</span>
+            <select id="soundStyle">
+              <option value="default">默认（双音）</option>
+              <option value="chime">清脆铃声</option>
+              <option value="pulse">脉冲震动</option>
+              <option value="bell">柔和铃</option>
+              <option value="custom">自定义文件</option>
+            </select>
+          </label>
+          <div class="sound-actions">
+            <button type="button" class="btn ghost small" id="btnPreviewSound">试听</button>
+            <label class="btn ghost small file-btn">
+              上传音频
+              <input type="file" id="customSoundFile" accept="audio/*,.mp3,.wav,.ogg,.m4a,.aac" hidden />
+            </label>
+            <button type="button" class="btn ghost small" id="btnClearSound" hidden>清除</button>
+          </div>
+          <p class="hint" id="customSoundHint">可上传 mp3 / wav（约 1.5MB 内），数据仅存本机。</p>
+        </div>
+
+        <div class="settings-actions">
+          <button type="button" class="btn ghost" id="btnReset">重置本轮</button>
+          <button type="button" class="btn primary" id="btnSave">保存</button>
+        </div>
+        <p class="hint">数据仅保存在本机，零外网请求。</p>
+      </div>
+    </details>
+
+    <footer class="footer">
+      <div class="footer-meta">
+        <span data-stat="date"></span>
+        <span class="privacy">隐私优先 · 本地存储</span>
+        <span class="version" id="appVersion">v1.2.0</span>
+      </div>
+      <div class="footer-links">
+        <a
+          class="footer-link"
+          id="projectLink"
+          href="https://github.com/YOUR_GITHUB_USERNAME/anti-sedentary-assistant"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="打开 GitHub 项目主页"
+        >项目主页</a>
+        <button type="button" class="footer-btn" id="btnCheckUpdate" title="检查是否有新版本">
+          检查更新
+        </button>
+      </div>
+      <p class="update-status" id="updateStatus" hidden></p>
+    </footer>
+  </div>
+
+  <script type="module" src="./index.js"></script>
+</body>
+</html>
